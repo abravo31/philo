@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amandabravo <amandabravo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 20:08:31 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/20 20:09:40 by amandabravo      ###   ########.fr       */
+/*   Updated: 2023/01/21 20:21:09 by abravo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,41 @@ int	ft_atoi(const char *nptr)
 	if (nptr[j] == '-')
 		n = -n;
 	return (n);
+}
+
+int	error_msg(char *s, t_data *params)// t_philo *p, int malloc)
+{
+	/*if (malloc)
+	{
+		if (par->death)
+			free(par->death);
+		if (par->fork)
+			free(par->fork);
+		if (p)
+			free(p);
+	}*/		
+	return (printf("%s", s));
+}
+
+/*void	print_routine(t_philo *p, char *action)
+{
+	pthread_mutex_lock(p->par->death);
+	if (p->par->over)
+	{
+		pthread_mutex_unlock(p->par->death);
+		return ;
+	}
+	printf("%ldms %d %s\n", time_now() - p->thread_start,
+		p->id, action);
+	pthread_mutex_unlock(p->par->death);
+}*/
+
+void	final_print(int alive)
+{
+	printf("						\n");
+	if (alive)
+		printf("	(☞ﾟヮﾟ)☞ no one died today	\n");
+	else
+		printf("	¯\\_(ツ)_/¯			\n");
+	printf("						\n");
 }
