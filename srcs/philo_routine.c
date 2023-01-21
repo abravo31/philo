@@ -6,7 +6,7 @@
 /*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 20:18:15 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/21 20:20:20 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/21 21:36:09 by abravo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,26 @@
 
 //p_thread_mutex_init(&mutex, NULL)
 
-void philo_eating(t_philo *p, t_data *params)
+/*void philo_eating(t_philo *p, t_data *params)
 {
     int i;
     
     i = 0;
-    while(i < params->nb_philo)
+    while(i < params->nb_phi)
     {
-        p->l_f[i] 
+        p->l_f[i]; 
     }
-    
-}
+}*/
 
 void    *philo_routine()
 {
     while(philo_eating)
     {
-        p_thread_mutex_lock(&mutex);
+        pthread_mutex_lock(&mutex);
         eat++;
-        p_thread_mutex_unlock(&mutex);
+        pthread_mutex_unlock(&mutex);
     }
+    return ;
 }
 
 //p_thread_mutex_destroy(&mutex)

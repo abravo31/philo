@@ -6,7 +6,7 @@
 /*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 20:08:31 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/21 20:21:09 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/21 21:08:55 by abravo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_atoi(const char *nptr)
 	return (n);
 }
 
-int	error_msg(char *s, t_data *params)// t_philo *p, int malloc)
+int	error_msg(char *s)// t_data *params)// t_philo *p, int malloc)
 {
 	/*if (malloc)
 	{

@@ -6,13 +6,13 @@
 /*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 21:30:19 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/21 20:14:41 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/21 21:23:39 by abravo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void init_philo_thread(t_data *params, t_philo *p)
+static int init_philo_thread(t_data *params, t_philo *p)
 {
     int i;
 
@@ -21,28 +21,29 @@ void init_philo_thread(t_data *params, t_philo *p)
     {
         p[i].r_f = p[(i + 1) % params->nb_phi].l_f;
         if(pthread_create(&p[i].id, NULL, &philo_routine, &p[i]) != 0)
-            error_msg("Feilled to create thread", params);
+            return(error_msg("Feilled to create thread"));
         i++;
     }
     i = 0;
     params->start = get_time_now();
-    while(i < params->nb)
+    while(i < params->nb_phi)
     {
         p[i].eating = params->start;
-        if(ptread_join(&p[i].id, NULL) != 0)
+        if(pthread_join(p[i].id, NULL) != 0)
             return 1;
         i++;
-    }   
+    }
+    return (0);   
 }
 
 int	philosophers(t_data *params)
 {
-	t_philo	*philo;
+	t_philo	*p;
 
-	philo = malloc(sizeof(t_philo) * params->nb_philo);
-	if (!philo || init_philo(params, philo))
+	p = malloc(sizeof(t_philo) * params->nb_phi);
+	if (!p || init_philo(params, p))
 		return (EXIT_FAILURE);
-	if (init_philo_thread(params, philo))
+	if (init_philo_thread(params, p))
 		return (EXIT_FAILURE);
 	//check_thread(params, philo);
 	//end_thread(params, philo);
