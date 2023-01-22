@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amandabravo <amandabravo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 19:18:14 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/21 21:45:22 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/22 17:48:06 by amandabravo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,13 @@ typedef struct s_data
 typedef struct s_philo
 {
     pthread_t   id;
+    int         index;
     int         times_ate;
     int         status;
     long long   eating;
-    t_fork      **r_f;
-    t_fork      **l_f;
+    long long   thread_start;
+    t_fork      *r_f;
+    t_fork      *l_f;
     t_data      *params;
 }   t_philo;
 
@@ -71,15 +73,17 @@ typedef struct s_philo
 
 int	        init_philo(t_data *params, t_philo *p);
 int	        philosophers(t_data *params);
-//void        *philo_routine();
+void        *philo_routine(void *doing);
 
 /** Tools **/
 
 int	        ft_atoi(const char *nptr);
 int	        error_msg(char *s);
+void	    print_routine(t_philo *p, char *action);
 
 /** Time **/
 
 long long	get_time_now(void);
+long long	ft_usleep(long long time);
 
 # endif

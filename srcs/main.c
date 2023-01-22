@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amandabravo <amandabravo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 19:17:56 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/21 21:48:47 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/22 17:52:23 by amandabravo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ int	init_philo(t_data *params, t_philo *p)
     i = 0;
     while (i <= params->nb_phi)
 	{
+		p[i].index = i;
 		p[i].times_ate = 0;
 		p[i].status = -1;
-		p[i].l_f = &params->f[i];
+		p[i].l_f = params->f[i];
 		p[i].r_f = 0;
 		p[i].params = params;
 		i++;
@@ -99,7 +100,7 @@ int main (int ac, char **av)
     if ((ac != 5 && ac != 6) || init_params(&params, av))
 		printf("Error: invalid arguments\n");
     	//return (error_msg("Error: invalid arguments\n", &params)); //0, 1));
-	//if (philosophers(&params))
-		//return (EXIT_FAILURE);
+	if (philosophers(&params))
+		return (EXIT_FAILURE);
 	return (0);
 }

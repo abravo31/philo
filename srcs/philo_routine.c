@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amandabravo <amandabravo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 20:18:15 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/21 21:36:09 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/22 17:42:54 by amandabravo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,28 @@
 
 //p_thread_mutex_init(&mutex, NULL)
 
-/*void philo_eating(t_philo *p, t_data *params)
+void ft_eating(t_philo *p)
 {
-    int i;
-    
-    i = 0;
-    while(i < params->nb_phi)
-    {
-        p->l_f[i]; 
-    }
-}*/
+    pthread_mutex_lock(&p->l_f->mutex_f);
+	print_routine(p, FORK);
+	pthread_mutex_lock(&p->r_f->mutex_f);
+	print_routine(p, FORK);
+	p->eating = get_time_now();
+	ft_usleep(p->params->time_to_eat);
+	print_routine(p, EAT);
+	//p->iter_num++;
+	pthread_mutex_unlock(&p->l_f->mutex_f);
+	pthread_mutex_unlock(&p->r_f->mutex_f);
+}
 
-void    *philo_routine()
+void    *philo_routine(void *doing)
 {
-    while(philo_eating)
-    {
-        pthread_mutex_lock(&mutex);
-        eat++;
-        pthread_mutex_unlock(&mutex);
-    }
-    return ;
+    t_philo *p;
+
+    p = (t_philo *)doing;
+    ft_eating(p);
+
+    return NULL;
 }
 
 //p_thread_mutex_destroy(&mutex)

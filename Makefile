@@ -1,5 +1,5 @@
 SOURCES_FILES	=	main.c \
-					philo.c philo_poutine.c time.c tools.c
+					philo.c philo_routine.c time.c tools.c
 
 SOURCES_DIR		=	srcs
 

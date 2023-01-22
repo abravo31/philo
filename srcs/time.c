@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amandabravo <amandabravo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:12:37 by abravo            #+#    #+#             */
-/*   Updated: 2023/01/21 18:47:44 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/22 17:43:33 by amandabravo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,14 @@ long long	get_time_now(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-long long	delta_time(long long time)
+long long	ft_usleep(long long time)
 {
-	if (time > 0)
-		return (get_time_now() - time);
-	return (0);
-}
+	long long	start;
 
-void	exec_action(long long time)
-{
-	usleep(time * 1000);
+	start = get_time_now();
+	while((get_time_now() - start) < time)
+		usleep(150);
+	return (1);
 }
 
 /*int	ft_usleep(long long time)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amandabravo <amandabravo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 21:30:19 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/21 21:23:39 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/22 17:19:50 by amandabravo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int init_philo_thread(t_data *params, t_philo *p)
     params->start = get_time_now();
     while(i < params->nb_phi)
     {
+        p[i].thread_start = params->start;
         p[i].eating = params->start;
         if(pthread_join(p[i].id, NULL) != 0)
             return 1;
