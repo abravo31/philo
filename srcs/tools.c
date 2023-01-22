@@ -52,7 +52,7 @@ int	error_msg(char *s)// t_data *params)// t_philo *p, int malloc)
 	return (printf("%s", s));
 }
 
-void	print_routine(t_philo *p, char *action)
+void	print_routine(t_philo *p, char *color, char *action)
 {
 	pthread_mutex_lock(&p->params->mutex_p);
 	/*if (p->par->over)
@@ -60,8 +60,11 @@ void	print_routine(t_philo *p, char *action)
 		pthread_mutex_unlock(p->par->death);
 		return ;
 	}*/
-	printf("%lldms %d %s\n", get_time_now() - p->thread_start,
-		p->index, action);
+	printf("%s%lldms %d %s\n", color, get_time_now() - p->thread_start, p->index, action);
+	//printf("thread_start: %lld, time\n", p->thread_start);
+	// printf("time: %lld\n", get_time_now() - p->thread_start);
+	// printf("index %d\n", p->index);
+	// printf("action: %s\n", action);
 	pthread_mutex_unlock(&p->params->mutex_p);
 }
 

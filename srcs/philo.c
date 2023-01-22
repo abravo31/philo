@@ -17,21 +17,21 @@ static int init_philo_thread(t_data *params, t_philo *p)
     int i;
 
     i = 0;
+    params->start = get_time_now();
     while(i < params->nb_phi)
     {
+        p[i].thread_start = params->start;
+        p[i].eating = params->start;
         p[i].r_f = p[(i + 1) % params->nb_phi].l_f;
         if(pthread_create(&p[i].id, NULL, &philo_routine, &p[i]) != 0)
             return(error_msg("Feilled to create thread"));
         i++;
     }
     i = 0;
-    params->start = get_time_now();
     while(i < params->nb_phi)
-    {
-        p[i].thread_start = params->start;
-        p[i].eating = params->start;
+    {       
         if(pthread_join(p[i].id, NULL) != 0)
-            return 1;
+            return 1; 
         i++;
     }
     return (0);   

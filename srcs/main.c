@@ -17,28 +17,33 @@ int	init_philo(t_data *params, t_philo *p)
 	int i;
 
     i = 0;
-    while (i <= params->nb_phi)
+    while (i < params->nb_phi)
 	{
 		p[i].index = i;
 		p[i].times_ate = 0;
 		p[i].status = -1;
-		p[i].l_f = params->f[i];
+		p[i].l_f = &params->f[i];
 		p[i].r_f = 0;
 		p[i].params = params;
+		p[i].thread_start = 0;
+		p[i].eating = 0;
 		i++;
 	}
 	return (0);
 }
 
-static void  init_fork(t_data *params)
+void  init_fork(t_data *params)
 {
     int i;
 
-    i = 0;
-    while (i <= params->nb_phi)
+	i = 0;
+	params->f = (t_fork *)malloc(sizeof(t_fork) * params->nb_phi);
+    while (i < params->nb_phi)
     {
-		params->f[i]->free = 0;
-		if((pthread_mutex_init(&params->f[i]->mutex_f, NULL)) == -1)
+		// printf("%d\n", i);
+		// f[i] = malloc(sizeof(t_fork));
+		params->f[i].free = 0;
+		if((pthread_mutex_init(&params->f[i].mutex_f, NULL)) == -1)
 			error_msg("Error\nMutex_fork init failed\n");
         i++;
     }
@@ -67,13 +72,11 @@ static void  init_fork(t_data *params)
 
 int	init_params(t_data *params, char **av)
 {
-	//int	mutex;
-
-	//mutex = -1;
 	params->nb_phi = ft_atoi(av[1]);
 	params->time_to_die = ft_atoi(av[2]);
 	params->time_to_eat = ft_atoi(av[3]);
 	params->time_to_sleep = ft_atoi(av[4]);
+	printf("num philo: %d\n", params->nb_phi);
 	init_fork(params);
 	//philo->max_iter = -2;
 	//philo->check_meal = 0;

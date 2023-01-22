@@ -52,7 +52,7 @@ typedef struct s_data
     int             time_to_sleep;
     int             times_eat;
     long long       start;
-    t_fork          **f;
+    t_fork          *f;
     pthread_mutex_t mutex_p;
 }   t_data;
 
@@ -79,7 +79,7 @@ void        *philo_routine(void *doing);
 
 int	        ft_atoi(const char *nptr);
 int	        error_msg(char *s);
-void	    print_routine(t_philo *p, char *action);
+void	    print_routine(t_philo *p, char *color, char *action);
 
 /** Time **/
 

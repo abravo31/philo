@@ -29,13 +29,3 @@ long long	ft_usleep(long long time)
 		usleep(150);
 	return (1);
 }
-
-/*int	ft_usleep(long long time)
-{
-	long int	start_time;
-
-	start_time = get_time_now();
-	while ((get_time_now() - start_time) < time)
-		usleep(150);
-	return (1);
-}*/
