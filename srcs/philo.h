@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amandabravo <amandabravo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 19:18:14 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/22 17:48:06 by amandabravo      ###   ########.fr       */
+/*   Updated: 2023/01/23 20:20:36 by abravo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ typedef struct s_data
     int             time_to_die;
     int             time_to_eat;
     int             time_to_sleep;
-    int             times_eat;
+    int             times_have_eat;
+    int             over;
     long long       start;
     t_fork          *f;
     pthread_mutex_t mutex_p;
@@ -61,7 +62,7 @@ typedef struct s_philo
     pthread_t   id;
     int         index;
     int         times_ate;
-    int         status;
+    int         died;
     long long   eating;
     long long   thread_start;
     t_fork      *r_f;
@@ -74,6 +75,7 @@ typedef struct s_philo
 int	        init_philo(t_data *params, t_philo *p);
 int	        philosophers(t_data *params);
 void        *philo_routine(void *doing);
+int	        check_death(t_philo *p);
 
 /** Tools **/
 
@@ -84,6 +86,6 @@ void	    print_routine(t_philo *p, char *color, char *action);
 /** Time **/
 
 long long	get_time_now(void);
-long long	ft_usleep(long long time);
+long long	ft_usleep(t_philo *p, long long time);
 
 # endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amandabravo <amandabravo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 19:17:56 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/22 17:52:23 by amandabravo      ###   ########.fr       */
+/*   Updated: 2023/01/23 19:22:48 by abravo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	init_philo(t_data *params, t_philo *p)
 	{
 		p[i].index = i;
 		p[i].times_ate = 0;
-		p[i].status = -1;
+		p[i].died = 0;
 		p[i].l_f = &params->f[i];
 		p[i].r_f = 0;
 		p[i].params = params;
@@ -76,7 +76,7 @@ int	init_params(t_data *params, char **av)
 	params->time_to_die = ft_atoi(av[2]);
 	params->time_to_eat = ft_atoi(av[3]);
 	params->time_to_sleep = ft_atoi(av[4]);
-	printf("num philo: %d\n", params->nb_phi);
+	//printf("num philo: %d\n", params->nb_phi);
 	init_fork(params);
 	//philo->max_iter = -2;
 	//philo->check_meal = 0;
@@ -85,9 +85,9 @@ int	init_params(t_data *params, char **av)
 	if (av[5])
 	{
 		//p->check_meal = 1;
-		params->times_eat = ft_atoi(av[5]);
+		params->times_have_eat = ft_atoi(av[5]);
 	}
-	//p->over = 0;
+	params->over = 0;
 	if (params->nb_phi > 0)
 	{
 		if((pthread_mutex_init(&params->mutex_p, NULL)) == -1)

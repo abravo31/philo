@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amandabravo <amandabravo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 20:08:31 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/22 17:48:45 by amandabravo      ###   ########.fr       */
+/*   Updated: 2023/01/23 20:44:05 by abravo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ int	error_msg(char *s)// t_data *params)// t_philo *p, int malloc)
 void	print_routine(t_philo *p, char *color, char *action)
 {
 	pthread_mutex_lock(&p->params->mutex_p);
-	/*if (p->par->over)
+	if (p->params->over)
 	{
-		pthread_mutex_unlock(p->par->death);
+		pthread_mutex_unlock(&p->params->mutex_p);
 		return ;
-	}*/
-	printf("%s%lldms %d %s\n", color, get_time_now() - p->thread_start, p->index, action);
+	}
+	printf("%s%lld %d %s\n", color, get_time_now() - p->thread_start, p->index, action);
 	//printf("thread_start: %lld, time\n", p->thread_start);
 	// printf("time: %lld\n", get_time_now() - p->thread_start);
 	// printf("index %d\n", p->index);
