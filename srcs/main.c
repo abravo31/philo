@@ -6,30 +6,39 @@
 /*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 19:17:56 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/23 19:22:48 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/25 19:32:56 by abravo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_philo(t_data *params, t_philo *p)
+int	init_philo(t_data *params, t_philo *p, char **av)
 {
 	int i;
 
     i = 0;
     while (i < params->nb_phi)
 	{
-		p[i].index = i;
+		p[i].index = i + 1;
 		p[i].times_ate = 0;
 		p[i].died = 0;
 		p[i].l_f = &params->f[i];
 		p[i].r_f = 0;
 		p[i].params = params;
 		p[i].thread_start = 0;
-		p[i].eating = 0;
+		p[i].eating = 0;	
+		p[i].time_to_die = ft_atoi(av[2]);
+		p[i].time_to_eat = ft_atoi(av[3]);
+		p[i].time_to_sleep = ft_atoi(av[4]);
+		p[i].check_meals = 0;
+		if (av[5])
+		{
+			p[i].check_meals = 1;
+			p[i].times_must_eat = ft_atoi(av[5]);
+		}
 		i++;
 	}
-	return (0);
+	return (p[i - 1].time_to_die <= 0 || p[i - 1].time_to_eat <= 0 || p[i - 1].time_to_sleep <= 0);
 }
 
 void  init_fork(t_data *params)
@@ -40,8 +49,6 @@ void  init_fork(t_data *params)
 	params->f = (t_fork *)malloc(sizeof(t_fork) * params->nb_phi);
     while (i < params->nb_phi)
     {
-		// printf("%d\n", i);
-		// f[i] = malloc(sizeof(t_fork));
 		params->f[i].free = 0;
 		if((pthread_mutex_init(&params->f[i].mutex_f, NULL)) == -1)
 			error_msg("Error\nMutex_fork init failed\n");
@@ -73,27 +80,16 @@ void  init_fork(t_data *params)
 int	init_params(t_data *params, char **av)
 {
 	params->nb_phi = ft_atoi(av[1]);
-	params->time_to_die = ft_atoi(av[2]);
-	params->time_to_eat = ft_atoi(av[3]);
-	params->time_to_sleep = ft_atoi(av[4]);
-	//printf("num philo: %d\n", params->nb_phi);
 	init_fork(params);
-	//philo->max_iter = -2;
-	//philo->check_meal = 0;
 	params->start = 0;
-	//philo->ready = 0;
-	if (av[5])
-	{
-		//p->check_meal = 1;
-		params->times_have_eat = ft_atoi(av[5]);
-	}
 	params->over = 0;
+	params->nb_finished = 0;
 	if (params->nb_phi > 0)
 	{
 		if((pthread_mutex_init(&params->mutex_p, NULL)) == -1)
 			return (error_msg("Error\nMutex_philo init failed\n")); //, 0, 1));
 	}			
-	return (params->nb_phi <= 0 || params->time_to_die <= 0 || params->time_to_eat <= 0 || params->time_to_sleep <= 0);
+	return (params->nb_phi <= 0);
 }
 
 int main (int ac, char **av)
@@ -103,7 +99,7 @@ int main (int ac, char **av)
     if ((ac != 5 && ac != 6) || init_params(&params, av))
 		printf("Error: invalid arguments\n");
     	//return (error_msg("Error: invalid arguments\n", &params)); //0, 1));
-	if (philosophers(&params))
+	if (philosophers(&params, av))
 		return (EXIT_FAILURE);
 	return (0);
 }

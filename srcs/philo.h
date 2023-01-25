@@ -6,7 +6,7 @@
 /*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 19:18:14 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/23 20:20:36 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/25 18:44:31 by abravo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,9 @@ typedef struct s_fork
 typedef struct s_data
 {
     int             nb_phi;
-    int             time_to_die;
-    int             time_to_eat;
-    int             time_to_sleep;
-    int             times_have_eat;
     int             over;
     long long       start;
+    int             nb_finished;
     t_fork          *f;
     pthread_mutex_t mutex_p;
 }   t_data;
@@ -62,7 +59,12 @@ typedef struct s_philo
     pthread_t   id;
     int         index;
     int         times_ate;
-    int         died;
+    int         died;    
+    int         time_to_die;
+    int         time_to_eat;
+    int         time_to_sleep;
+    int         times_must_eat;
+    int         check_meals;
     long long   eating;
     long long   thread_start;
     t_fork      *r_f;
@@ -72,16 +74,18 @@ typedef struct s_philo
 
 /** Philos **/
 
-int	        init_philo(t_data *params, t_philo *p);
-int	        philosophers(t_data *params);
+int	        init_philo(t_data *params, t_philo *p, char **av);
+int	        philosophers(t_data *params, char **av);
 void        *philo_routine(void *doing);
 int	        check_death(t_philo *p);
+void	    check_meals(t_philo *p);
 
 /** Tools **/
 
 int	        ft_atoi(const char *nptr);
 int	        error_msg(char *s);
 void	    print_routine(t_philo *p, char *color, char *action);
+void	    final_print(int alive);
 
 /** Time **/
 
