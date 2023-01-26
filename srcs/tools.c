@@ -6,7 +6,7 @@
 /*   By: abravo <abravo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 20:08:31 by amandabravo       #+#    #+#             */
-/*   Updated: 2023/01/25 19:04:05 by abravo           ###   ########.fr       */
+/*   Updated: 2023/01/26 19:31:04 by abravo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,71 @@ int	ft_atoi(const char *nptr)
 	return (n);
 }
 
+int	take_left(t_philo *p)
+{
+	int	left_taken;
+
+	left_taken = 0;
+	while (left_taken == 0)
+	{
+		pthread_mutex_lock(&p->l_f->mutex_f);
+		if (p->l_f->free == 0)
+		{
+			p->l_f->free = 1;
+			left_taken = 1;
+			print_routine(p, PINK, FORK);
+		}
+		if (check_death(p) && left_taken)
+		{
+			p->l_f->free = 0;
+			pthread_mutex_unlock(&p->l_f->mutex_f);
+			return (0);
+		}
+		pthread_mutex_unlock(&p->l_f->mutex_f);
+	}
+	return (1);
+}
+
+int	take_right(t_philo *p)
+{
+	int	right_taken;
+
+	right_taken = 0;
+	while (right_taken == 0)
+	{
+		pthread_mutex_lock(&p->r_f->mutex_f);
+		if (p->r_f->free == 0)
+		{
+			p->r_f->free = 1;
+			right_taken = 1;
+			print_routine(p, PINK, FORK);
+		}
+		if (check_death(p) && right_taken)
+		{
+			p->r_f->free = 0;
+			pthread_mutex_unlock(&p->r_f->mutex_f);
+			return (0);
+		}
+		pthread_mutex_unlock(&p->r_f->mutex_f);
+	}
+	return (1);
+}
+
+int	take_forks(t_philo *p)
+{
+	int	left_taken;
+	int	right_taken;
+
+	left_taken = 0;
+	right_taken = 0;
+	while (left_taken == 0 || right_taken == 0)
+	{
+		left_taken = take_left(p);
+		right_taken = take_right(p);
+	}
+	return (0);
+}
+
 int	error_msg(char *s)// t_data *params)// t_philo *p, int malloc)
 {
 	/*if (malloc)
@@ -52,30 +117,12 @@ int	error_msg(char *s)// t_data *params)// t_philo *p, int malloc)
 	return (printf("%s", s));
 }
 
-void	print_routine(t_philo *p, char *color, char *action)
-{
-	pthread_mutex_lock(&p->params->mutex_p);
-	// printf("hello\n");
-	if (p->params->over)
-	{
-		pthread_mutex_unlock(&p->params->mutex_p);
-		return ;
-	}
-	// printf("%lld %d\n", p->thread_start, p->index);
-	printf("%s%lld %d %s\n", color, get_time_now() - p->thread_start, p->index, action);
-	//printf("thread_start: %lld, time\n", p->thread_start);
-	// printf("time: %lld\n", get_time_now() - p->thread_start);
-	// printf("index %d\n", p->index);
-	// printf("action: %s\n", action);
-	pthread_mutex_unlock(&p->params->mutex_p);
-}
-
-void	final_print(int alive)
-{
-	printf("						\n");
-	if (alive)
-		printf("	(☞ﾟヮﾟ)☞ no one died today	\n");
-	else
-		printf("	¯\\_(ツ)_/¯			\n");
-	printf("						\n");
-}
+// void	final_print(int alive)
+// {
+// 	printf("						\n");
+// 	if (alive)
+// 		printf("	(☞ﾟヮﾟ)☞ no one died today	\n");
+// 	else
+// 		printf("	¯\\_(ツ)_/¯			\n");
+// 	printf("						\n");
+// }
