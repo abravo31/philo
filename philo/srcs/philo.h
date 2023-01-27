@@ -74,8 +74,8 @@ typedef struct s_philo
 
 /** Philos **/
 
-int			init_philo(t_data *params, t_philo *p, char **av);
-int			philosophers(t_data *params, char **av);
+void		init_philo(t_data *params, t_philo *p, char **av);
+int			philosophers(t_data *params, t_philo *p, char **av);
 void		*philo_routine(void *doing);
 int			check_death(t_philo *p);
 void		check_meals(t_philo *p);
@@ -83,7 +83,7 @@ void		check_meals(t_philo *p);
 /** Tools **/
 
 int			ft_atoi(const char *nptr);
-int			error_msg(char *s, t_data *params, t_philo *p, int malloc);
+int			error_msg(char *s, t_fork *f);
 void		print_routine(t_philo *p, char *color, char *action);
 void		final_print(int alive);
 int			take_forks(t_philo *p);

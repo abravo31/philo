@@ -1,5 +1,4 @@
-SOURCES_FILES	=	main.c \
-					philo.c philo_routine.c time.c tools.c
+SOURCES_FILES	=	main.c philo.c philo_routine.c time.c tools.c
 
 SOURCES_DIR		=	srcs
 
@@ -13,10 +12,10 @@ MAKE			=	make
 
 NAME			=	philo
 
-CC				=	gcc
+CC				=	cc
 RM				=	rm -f
 
-CFLAGS			=	-g3 -Wall -Wextra -Werror -pthread #-fsanitize=address
+CFLAGS			=	-g3 -Wall -Wextra -Werror -pthread # -fsanitize=address
 
 all:	$(NAME)
 

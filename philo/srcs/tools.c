@@ -58,6 +58,7 @@ int	take_left(t_philo *p)
 			return (2);
 		}
 		pthread_mutex_unlock(&p->l_f->mutex_f);
+		usleep(1);
 	}
 	return (1);
 }
@@ -82,6 +83,7 @@ int	take_right(t_philo *p)
 			return (2);
 		}
 		pthread_mutex_unlock(&p->r_f->mutex_f);
+		usleep(1);
 	}
 	return (1);
 }
@@ -106,14 +108,9 @@ int	take_forks(t_philo *p)
 	return (0);
 }
 
-int	error_msg(char *s, t_data *params, t_philo *p, int malloc)
-{
-	if (malloc)
-	{
-		if (params->f)
-			free(params->f);
-		if (p)
-			free(p);
-	}		
-	return (printf("%s", s));
-}
+// int	error_msg(char *s, t_fork *f)
+// {
+// 	if (f)
+// 		free(f);
+// 	return (printf("%s", s));
+// }

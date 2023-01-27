@@ -26,17 +26,17 @@ int	check_args(int ac, char **av)
 		while (av[i][j])
 		{
 			if (av[i][j] < '0' || av[i][j] > '9')
-				return (0);
+				return (-1);
 			j++;
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
-int	init_philo(t_data *params, t_philo *p, char **av)
+void	init_philo(t_data *params, t_philo *p, char **av)
 {
-	int	i;
+	int		i;
 
 	i = -1;
 	while (++i < params->nb_phi)
@@ -59,59 +59,56 @@ int	init_philo(t_data *params, t_philo *p, char **av)
 			p[i].times_must_eat = ft_atoi(av[5]);
 		}
 	}
-	return (0);
 }
 
-void	init_fork(t_data *params)
+int	init_fork(t_data *params)
 {
-	int	i;
+	int		i;
 
 	i = 0;
-	params->f = (t_fork *)malloc(sizeof(t_fork) * params->nb_phi);
-	if (!params->f)
-	{
-		pthread_mutex_destroy(&params->mutex_p);
-		free(params->f);
-		return ;
-	}
 	while (i < params->nb_phi)
 	{
 		params->f[i].free = 0;
 		if ((pthread_mutex_init(&params->f[i].mutex_f, NULL)) == -1)
-			error_msg("Error\nMutex_fork init failed\n", params, NULL, 1);
+			return (printf("Error: Mutex_fork init failed\n"), 1);
 		i++;
 	}
-	return ;
+	return (0);
 }
 
-int	init_params(t_data *params, char **av)
+int	init_params(t_data *params, t_philo *p, t_fork *f, char **av)
 {
 	params->nb_phi = ft_atoi(av[1]);
-	init_fork(params);
+	params->f = f;
+	if (init_fork(params))
+		return (-1);
 	params->start = 0;
 	params->over = 0;
 	params->nb_finished = 0;
 	if (params->nb_phi > 0)
 	{
 		if ((pthread_mutex_init(&params->mutex_p, NULL)) == -1)
-			return (error_msg("Error\nMutex_philo init failed\n",
-					params, NULL, 0));
+			return (printf("Error: Mutex_philo init failed\n"), 1);
 	}			
+	init_philo(params, p, av);
 	return (params->nb_phi <= 0);
 }
 
 int	main(int ac, char **av)
 {
 	t_data	params;
+	t_philo	*p;
+	t_fork	*f;
 
-	if (!check_args(ac, av) || init_params(&params, av))
-	{
-		printf("Error: invalid arguments\n");
-		return (0);
-	}
-	if (philosophers(&params, av))
-	{
-		return (EXIT_FAILURE);
-	}
-	return (0);
+	if (check_args(ac, av))
+		return (printf("Error: invalid arguments\n"), 1);
+	p = malloc(sizeof (t_philo) * ft_atoi(av[1]));
+	if (!p)
+		return (printf("Error: philo malloc failed"), 1);
+	f = malloc(sizeof (t_fork) * ft_atoi(av[1]));
+	if (!f)
+		return (printf("Error: fork malloc failed"), free(p), 1);
+	if (init_params(&params, p, f, av) || philosophers(&params, p, av))
+		return (free(p), free(f), 1);
+	return (free(p), free(f), 0);
 }

@@ -96,6 +96,7 @@ void	*philo_routine(void *doing)
 	p->eating = p->params->start;
 	pthread_mutex_unlock(&p->params->mutex_p);
 	if (p->index % 2 != 0)
+		// usleep(10000);
 		ft_usleep(p, p->time_to_eat * 0.9 + 1);
 	while (p->index <= p->params->nb_phi)
 	{
