@@ -83,7 +83,6 @@ void		check_meals(t_philo *p);
 /** Tools **/
 
 int			ft_atoi(const char *nptr);
-int			error_msg(char *s, t_fork *f);
 void		print_routine(t_philo *p, char *color, char *action);
 void		final_print(int alive);
 int			take_forks(t_philo *p);

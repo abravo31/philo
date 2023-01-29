@@ -100,17 +100,9 @@ int	take_forks(t_philo *p)
 		left_taken = take_left(p);
 		if (left_taken == 2)
 			return (1);
-		// usleep(10);
 		right_taken = take_right(p);
 		if (right_taken == 2)
 			return (1);
 	}
 	return (0);
 }
-
-// int	error_msg(char *s, t_fork *f)
-// {
-// 	if (f)
-// 		free(f);
-// 	return (printf("%s", s));
-// }

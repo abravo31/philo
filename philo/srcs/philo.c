@@ -36,15 +36,18 @@ int	philosophers(t_data *params, t_philo *p, char **av)
 	{
 		p[i].r_f = p[(i + 1) % params->nb_phi].l_f;
 		if (pthread_create(&p[i].id, NULL, &philo_routine, &p[i]) != 0)
-			return (printf("Failed to create thread"), 1);
+			return (printf("Failed to create thread\n"), 1);
 		i++;
 	}
 	i = 0;
 	while (i < params->nb_phi)
 	{
 		if (pthread_join(p[i].id, NULL) != 0)
-			return (1);
+			return (printf("Failed to join thread\n"), 1);
 		i++;
 	}
+	while (i < params->nb_phi)
+		pthread_mutex_destroy(&params->f[i++].mutex_f);
+	pthread_mutex_destroy(&params->mutex_p);
 	return (0);
 }
